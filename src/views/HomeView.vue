@@ -123,7 +123,7 @@ export default {
           mapRif:''
         },
         {
-          hemiI:0.25,
+          hemiI:0.001,
           dlI:1,
           dlC:0xffffff,
           mapRif:'../assets/park_parking_4k.jpg'
@@ -183,7 +183,7 @@ export default {
       const texNr = new THREE.TextureLoader().load('../assets/texC2/stone_wall_nor_gl_1k.webp');
       const texARM = new THREE.TextureLoader().load('../assets/texC2/stone_wall_arm_1k.webp');
       const texW = new THREE.TextureLoader().load('../assets/wood_cabinet_worn_long_diff_1k.jpeg');
-      const texS = new THREE.TextureLoader().load('../assets/stage_ao.jpg');
+      
 
       const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
 
@@ -231,6 +231,7 @@ export default {
         roughness:0.2,
         metalness:0.8,
         envMap:this.env,
+        envMapIntensity:1.5,
         normalMap:texN,
         normalScale:new THREE.Vector2( 1.6,1.6 ),
       })
@@ -238,13 +239,11 @@ export default {
         color:0xccccbb,
         RoughnessMap:texARM,
         metalnessMap:texARM,
-        aoMap:texS,
         map:tex,
         envMap:this.env,
-        envMapIntensity:1,
+        envMapIntensity:1.5,
         normalMap:texNr,
         normalScale:new THREE.Vector2( 1,1 ),
-        lightMap:texS
       })
       const materialT2 = new THREE.MeshStandardMaterial({
         color:0xccccbb,
@@ -253,7 +252,7 @@ export default {
         aoMap:texARM,
         map:tex,
         envMap:this.env,
-        envMapIntensity:1,
+        envMapIntensity:1.5,
         normalMap:texNr,
         normalScale:new THREE.Vector2( 1,1 ),
       })
@@ -264,7 +263,7 @@ export default {
       this.dl.shadow.camera.bottom = 512;
       this.dl.castShadow = true;
       this.dl.shadow.mapSize.set(2048,2048);
-      const setT = setTimeout(this.shadowstatic,5000);
+      const setT = setTimeout(this.shadowstatic,10000);
       console.log(setT);
       this.dl.shadow.camera.near = 0.5; // default
       this.dl.shadow.camera.far = 1500; // default
@@ -411,11 +410,15 @@ export default {
         this.xrcamera.lookAt(new THREE.Vector3(this.xyz[this.id].x.x,this.xyz[this.id].x.y,this.xyz[this.id].x.z));
        
       this.Scrolltex(this.wtex,0.000003,0.00003);
+      let px=0;
+      px=this.pointer.x;
+      let py=0;
+      py=this.pointer.y;
       let distance = this.xrcamera.position.distanceTo(this.xyz[this.id].x);
-      if(this.cameflag==true){
+      if(this.cameflag==true&&this.menuflag==false){
       if(distance>30)
-      this.xrcamera.position.set(this.xrcamera.position.x+forward.x/2*this.pointer.y,this.xrcamera.position.y+forward.y/2*this.pointer.y,this.xrcamera.position.z+forward.z/2*this.pointer.y);
-      this.xrcamera.position.set(this.xrcamera.position.x+side.x/2*-this.pointer.x,this.xrcamera.position.y+side.y/2*-this.pointer.x,this.xrcamera.position.z+side.z/2*-this.pointer.x);
+      this.xrcamera.position.set(this.xrcamera.position.x+forward.x/2*py,this.xrcamera.position.y+forward.y/2*py,this.xrcamera.position.z+forward.z/2*py);
+      this.xrcamera.position.set(this.xrcamera.position.x+side.x/2*-px,this.xrcamera.position.y+side.y/2*-px,this.xrcamera.position.z+side.z/2*-px);
       }
       if(this.keycode=="KeyL"){
         this.makesheet();
@@ -748,7 +751,7 @@ export default {
         <pictureload info="展示3" v-on:send="sendimg($event,'gaku',2)" v-bind:srcA="src[2]"/>
         <pictureload info="展示4" v-on:send="sendimg($event,'gaku',3)" v-bind:srcA="src[3]"/>
       </div>
-      <div v-if="!cameflag" @click="test" class="ttl_btn">Start</div>
+      <div v-if="!cameflag" @click="Start" class="ttl_btn">Start</div>
       <!-- <button v-if="cameflag" @click="test" class="arr_btn">→</button> -->
     </div>
     </div>
