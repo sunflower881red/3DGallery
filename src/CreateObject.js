@@ -84,8 +84,8 @@ function LoadmodelM(modelpath,mtlpath,textureEquirec,scene,posi,rota,sca){
       child.material[1]= new THREE.MeshStandardMaterial({
         roughness:0.8,
         metalness:0,
-        envMap:textureEquirec
-        
+        envMap:textureEquirec,
+        normalScale:new THREE.Vector2( 0.3,0.3 )
       });
         child.material[1].map = new THREE.Texture();
      }

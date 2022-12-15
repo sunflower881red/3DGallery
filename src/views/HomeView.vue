@@ -233,7 +233,7 @@ export default {
         envMap:this.env,
         envMapIntensity:1.5,
         normalMap:texN,
-        normalScale:new THREE.Vector2( 1.6,1.6 ),
+        normalScale:new THREE.Vector2( 0.2,0.2 ),
       })
       const materialT = new THREE.MeshStandardMaterial({
         color:0xccccbb,
@@ -354,7 +354,7 @@ export default {
             obj.children[0].material[1].map=texW;
             obj.children[0].material[1].normalMap=texN;
             obj.children[0].material[0].normalMap=texN;
-            obj.children[0].material[0].normalScale=new THREE.Vector2( 0.2,0.2 );
+            obj.children[0].material[0].normalScale=new THREE.Vector2( 0.05,0.05 );
             
           })
         }
@@ -414,11 +414,22 @@ export default {
       px=this.pointer.x;
       let py=0;
       py=this.pointer.y;
+      console.log(this.pointer.py+"  "+window.innerHeight*0.93)
       let distance = this.xrcamera.position.distanceTo(this.xyz[this.id].x);
       if(this.cameflag==true&&this.menuflag==false){
-      if(distance>30)
-      this.xrcamera.position.set(this.xrcamera.position.x+forward.x/2*py,this.xrcamera.position.y+forward.y/2*py,this.xrcamera.position.z+forward.z/2*py);
-      this.xrcamera.position.set(this.xrcamera.position.x+side.x/2*-px,this.xrcamera.position.y+side.y/2*-px,this.xrcamera.position.z+side.z/2*-px);
+      if(window.innerWidth>window.innerHeight){
+        if(this.pointer.px<window.innerWidth*0.93){
+          if(distance>30)
+          this.xrcamera.position.set(this.xrcamera.position.x+forward.x/2*py,this.xrcamera.position.y+forward.y/2*py,this.xrcamera.position.z+forward.z/2*py);
+          this.xrcamera.position.set(this.xrcamera.position.x+side.x/2*-px,this.xrcamera.position.y+side.y/2*-px,this.xrcamera.position.z+side.z/2*-px);
+          }
+        }else{
+          if(this.pointer.py<window.innerHeight*0.93){
+          if(distance>30)
+          this.xrcamera.position.set(this.xrcamera.position.x+forward.x/2*py,this.xrcamera.position.y+forward.y/2*py,this.xrcamera.position.z+forward.z/2*py);
+          this.xrcamera.position.set(this.xrcamera.position.x+side.x/2*-px,this.xrcamera.position.y+side.y/2*-px,this.xrcamera.position.z+side.z/2*-px);
+          }
+        }
       }
       if(this.keycode=="KeyL"){
         this.makesheet();
@@ -549,7 +560,9 @@ export default {
     },
     onPointerMove( event ) {
       this.pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      this.pointer.px = event.clientX;
       this.pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      this.pointer.py =  event.clientY;
     },
     Raycast(){
       if(this.cameflag&&!this.menuflag){
@@ -566,15 +579,15 @@ export default {
         if(name[0]=='picture'){
         this.select=Number(name[1])+1;
         console.log(this.pls);
-        this.pls.intensity=3;
+        this.pls.intensity=2;
         this.pls.decay =2;
-        this.pls.color.b=1;
-        this.pls.color.g=0.3862745098039216;
-        this.pls.color.r=0.2;
+        this.pls.color.b=0.34901960784313724;
+        this.pls.color.g=0.6862745098039216;
+        this.pls.color.r=1;
         }
       }else{
         this.select=0;
-        this.pls.intensity=2;
+        this.pls.intensity=0;
         this.pls.decay =2;
         this.pls.color.b=0.34901960784313724;
         this.pls.color.g=0.6862745098039216;
